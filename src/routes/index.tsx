@@ -165,9 +165,16 @@ function Hero() {
     <section id="top" className="relative h-screen min-h-[700px] overflow-hidden">
       {HERO_SLIDES.map((s, i) => (
         <div key={s.src} className={`absolute inset-0 transition-opacity duration-[1500ms] ${i === idx ? "opacity-100" : "opacity-0"}`}>
-          <img src={s.src} alt={s.caption} className="w-full h-full object-cover animate-kenburns" />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/40" />
-          <div className="absolute inset-0 bg-gradient-to-r from-ink/80 via-transparent to-ink/40" />
+          {/* Blurred backdrop fills the frame so the portrait subject can be shown fully without crop */}
+          <img src={s.src} alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-50" />
+          <div className="absolute inset-0 bg-ink/50" />
+          <img
+            src={s.src}
+            alt={s.caption}
+            className="relative z-[1] w-full h-full object-contain object-center animate-kenburns"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-transparent z-[2]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-ink/70 via-transparent to-ink/30 z-[2]" />
         </div>
       ))}
       <div className="relative z-10 h-full flex flex-col justify-center px-6 md:px-16 max-w-7xl mx-auto">
