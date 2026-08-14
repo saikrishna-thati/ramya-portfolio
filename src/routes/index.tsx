@@ -5,40 +5,39 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-import black4 from "@/assets/gallery/black4.jpg.asset.json";
-import black5 from "@/assets/gallery/black5.jpeg.asset.json";
-import blue1 from "@/assets/gallery/blue1.jpeg.asset.json";
-import blue5 from "@/assets/gallery/blue5.jpeg.asset.json";
-import glow4 from "@/assets/gallery/glow4.jpeg.asset.json";
-import glow5 from "@/assets/gallery/glow5.jpeg.asset.json";
-import new1 from "@/assets/gallery/new1.jpg.asset.json";
-import new2 from "@/assets/gallery/new2.jpg.asset.json";
-import new3 from "@/assets/gallery/new3.jpg.asset.json";
-import red1 from "@/assets/gallery/red1.jpeg.asset.json";
-import red2 from "@/assets/gallery/red2.jpeg.asset.json";
-import white6 from "@/assets/gallery/white6.jpeg.asset.json";
-import white8 from "@/assets/gallery/white8.jpeg.asset.json";
-
-const P = {
-  black4: black4.url, black5: black5.url,
-  blue1: blue1.url, blue5: blue5.url,
-  glow4: glow4.url, glow5: glow5.url,
-  new1: new1.url, new2: new2.url, new3: new3.url,
-  red1: red1.url, red2: red2.url,
-  white6: white6.url, white8: white8.url,
-};
-const PHOTO = (n: string) => {
-  const key = n.replace(/\.(jpe?g)$/i, "") as keyof typeof P;
-  return P[key] ?? "";
-};
+const WESTERN_IMAGES = [
+  "/western/IMG_3232.JPG",
+  "/western/IMG_3336.JPG",
+  "/western/IMG_3490.JPG",
+  "/western/IMG_5224.jpg",
+  "/western/IMG_5257.jpg",
+  "/western/IMG_5263.jpg",
+  "/western/IMG_7426.JPG",
+  "/western/IMG_7588.JPG",
+  "/western/IMG_7709.JPG",
+  "/western/_SAI4424.jpeg",
+  "/western/_SAI4435.jpeg",
+  "/western/_SAI4465.jpeg",
+  "/western/_SAI4577.jpeg",
+  "/western/_SAI4874.jpeg",
+];
+const TRADITIONAL_IMAGES = [
+  "/traditional/6d6ba1ca-8322-4c7c-864a-ceeb08daf6e4.JPG",
+  "/traditional/8855BBFF-7330-4193-9FE7-BBB2A15C5ACC.JPG",
+  "/traditional/IMG_1542.JPG",
+  "/traditional/IMG_1732.JPG",
+  "/traditional/IMG_2953.JPG",
+  "/traditional/IMG_2980.JPG",
+  "/traditional/IMG_3258.JPG",
+  "/traditional/IMG_7410.JPG",
+  "/traditional/IMG_7414.JPG",
+];
 
 const HERO_SLIDES = [
-  { src: PHOTO("red1.jpeg"), caption: "Red Passion" },
-  { src: PHOTO("black4.jpg"), caption: "Black Elegance" },
-  { src: PHOTO("white8.jpeg"), caption: "White Grace" },
-  { src: PHOTO("glow5.jpeg"), caption: "Golden Radiance" },
-  { src: PHOTO("blue5.jpeg"), caption: "Blue Serenity" },
-  { src: PHOTO("new2.jpg"), caption: "Editorial" },
+  { src: "/western/IMG_3490.JPG", caption: "Western Modeling" },
+  { src: "/traditional/IMG_2980.JPG", caption: "Traditional Elegance" },
+  { src: "/western/IMG_7426.JPG", caption: "Modern Styling" },
+  { src: "/traditional/IMG_1542.JPG", caption: "Cultural Grace" },
 ];
 
 const RELEASED = [
@@ -57,21 +56,7 @@ const UPCOMING = [
   { year: "2026", title: "Bharatavarsha", meta: "Dir. Sankalp Reddy · Prod. Srinivasaa Chitturi", tag: "ETV Win · Historical Epic" },
 ];
 
-const GALLERY = [
-  { src: PHOTO("red1.jpeg"), title: "Bold & Beautiful", mood: "Red Passion" },
-  { src: PHOTO("new1.jpg"), title: "Cinematic", mood: "Editorial" },
-  { src: PHOTO("black4.jpg"), title: "Studio Portrait", mood: "Black Elegance" },
-  { src: PHOTO("glow5.jpeg"), title: "Traditional Elegance", mood: "Golden Glow" },
-  { src: PHOTO("white8.jpeg"), title: "Pure Elegance", mood: "White Grace" },
-  { src: PHOTO("blue5.jpeg"), title: "Graceful", mood: "Blue Serenity" },
-  { src: PHOTO("new2.jpg"), title: "Timeless", mood: "Editorial" },
-  { src: PHOTO("red2.jpeg"), title: "Fiery Spirit", mood: "Red Passion" },
-  { src: PHOTO("glow4.jpeg"), title: "Warm Tones", mood: "Golden Glow" },
-  { src: PHOTO("black5.jpeg"), title: "Fashion Forward", mood: "Black Elegance" },
-  { src: PHOTO("blue1.jpeg"), title: "Calm & Collected", mood: "Blue Serenity" },
-  { src: PHOTO("white6.jpeg"), title: "Serene Grace", mood: "White Grace" },
-  { src: PHOTO("new3.jpg"), title: "Radiant", mood: "Editorial" },
-];
+
 
 const VIDEOS = [
   { id: "CFD5MNrkdTQ", title: "Bajaj Electronics — Festive Campaign" },
@@ -228,7 +213,7 @@ function About() {
         <div className="reveal relative">
           <div className="absolute -inset-4 bg-gold/10 blur-3xl rounded-full" />
           <div className="relative aspect-[3/4] overflow-hidden rounded-sm group">
-            <img src={PHOTO("red1.jpeg")} alt="Ramya" className="w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-110" />
+            <img src={"/western/IMG_3232.JPG"} alt="Ramya" className="w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-110" />
             <div className="absolute inset-0 ring-1 ring-gold/30" />
             <div className="absolute top-4 left-4 text-[10px] tracking-[0.4em] uppercase text-gold/80">Portrait · 2025</div>
           </div>
@@ -332,11 +317,22 @@ function Filmography() {
 }
 
 function Gallery() {
-  const [lightbox, setLightbox] = useState<number | null>(null);
+  const [activeTab, setActiveTab] = useState<"western" | "traditional">("western");
+  const [lightbox, setLightbox] = useState<{ src: string; album: string; index: number } | null>(null);
   const ref = useReveal();
+
+  const activeImages = activeTab === "western" ? WESTERN_IMAGES : TRADITIONAL_IMAGES;
+
   const close = () => setLightbox(null);
-  const next = (dir: number) =>
-    setLightbox((i) => (i === null ? null : (i + dir + GALLERY.length) % GALLERY.length));
+  const next = (dir: number) => {
+    setLightbox((prev) => {
+      if (!prev) return null;
+      const images = prev.album === "western" ? WESTERN_IMAGES : TRADITIONAL_IMAGES;
+      let newIdx = (prev.index + dir + images.length) % images.length;
+      return { src: images[newIdx], album: prev.album, index: newIdx };
+    });
+  };
+
   useEffect(() => {
     if (lightbox === null) return;
     const onKey = (e: KeyboardEvent) => {
@@ -349,52 +345,75 @@ function Gallery() {
   }, [lightbox]);
 
   return (
-    <section id="gallery" ref={ref} className="py-32 px-6 relative">
+    <section id="gallery" ref={ref} className="py-32 px-6 relative bg-card/10">
       <div className="mx-auto max-w-7xl">
-        <div className="text-center reveal mb-16">
+        <div className="text-center reveal mb-10">
           <div className="flex items-center justify-center gap-4 mb-4">
             <span className="h-px w-8 bg-gold" />
-            <span className="text-xs uppercase tracking-[0.4em] text-gold">Visual Portfolio</span>
+            <span className="text-xs uppercase tracking-[0.4em] text-gold">Visual Aesthetics</span>
             <span className="h-px w-8 bg-gold" />
           </div>
-          <h2 className="text-5xl md:text-7xl font-light gold-gradient mb-4">Gallery</h2>
+          <h2 className="text-5xl md:text-7xl font-light gold-gradient mb-4">Portfolio</h2>
           <p className="text-foreground/60 font-light max-w-xl mx-auto">
-            A curated collection of photoshoots showcasing elegance, versatility, and artistic expression.
+            Explore the diverse range of styles, from vibrant western modeling sets to elegant traditional attire.
           </p>
         </div>
+
+        {/* Tabs */}
+        <div className="flex justify-center flex-wrap gap-4 mb-16 reveal">
+          <button
+            onClick={() => setActiveTab("western")}
+            className={`px-8 py-4 text-xs uppercase tracking-[0.25em] transition-all border ${activeTab === "western"
+                ? "border-gold bg-gold text-ink"
+                : "border-gold/30 text-gold-soft hover:border-gold/80"
+              }`}
+          >
+            Western
+          </button>
+          <button
+            onClick={() => setActiveTab("traditional")}
+            className={`px-8 py-4 text-xs uppercase tracking-[0.25em] transition-all border ${activeTab === "traditional"
+                ? "border-gold bg-gold text-ink"
+                : "border-gold/30 text-gold-soft hover:border-gold/80"
+              }`}
+          >
+            Traditional
+          </button>
+        </div>
+
+        {/* Masonry or Columns Gallery */}
         <div className="columns-2 md:columns-3 lg:columns-4 gap-4 [column-fill:_balance]">
-          {GALLERY.map((g, i) => (
+          {activeImages.map((src, i) => (
             <button
-              key={g.src}
-              onClick={() => setLightbox(i)}
+              key={src}
+              onClick={() => setLightbox({ src, album: activeTab, index: i })}
               className="reveal group relative mb-4 block w-full overflow-hidden bg-card break-inside-avoid"
-              style={{ animationDelay: `${i * 60}ms` }}
+              style={{ animationDelay: `${(i % 10) * 40}ms` }}
             >
               <img
-                src={g.src}
-                alt={g.title}
+                src={src}
+                alt={`Portfolio element ${i}`}
                 loading="lazy"
                 className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500 text-left">
-                <div className="text-[9px] uppercase tracking-[0.3em] text-gold">{g.mood}</div>
-                <div className="font-display text-lg text-foreground">{g.title}</div>
-              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <div className="absolute inset-2 ring-1 ring-gold/0 group-hover:ring-gold/40 transition-all duration-500" />
             </button>
           ))}
         </div>
       </div>
+
+      {/* Lightbox */}
       {lightbox !== null && (
         <div onClick={close} className="fixed inset-0 z-[60] bg-ink/95 flex items-center justify-center p-6 backdrop-blur-md animate-fade-up cursor-zoom-out">
-          <img src={GALLERY[lightbox].src} alt={GALLERY[lightbox].title} className="max-h-[90vh] max-w-[90vw] object-contain ring-1 ring-gold/30" />
+          <img src={lightbox.src} alt="Enlarged" className="max-h-[90vh] max-w-[90vw] object-contain ring-1 ring-gold/30" />
           <button onClick={(e) => { e.stopPropagation(); next(-1); }} className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-gold/40 text-gold hover:bg-gold hover:text-ink transition-all text-xl">‹</button>
           <button onClick={(e) => { e.stopPropagation(); next(1); }} className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-gold/40 text-gold hover:bg-gold hover:text-ink transition-all text-xl">›</button>
           <button onClick={close} className="absolute top-6 right-6 text-gold text-3xl w-10 h-10 flex items-center justify-center">×</button>
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center">
-            <div className="font-display text-xl text-gold-soft">{GALLERY[lightbox].title}</div>
-            <div className="text-[10px] uppercase tracking-[0.3em] text-foreground/60 mt-1">{GALLERY[lightbox].mood} · {lightbox + 1} / {GALLERY.length}</div>
+            <div className="text-[10px] uppercase tracking-[0.3em] text-foreground/80 mt-1 bg-ink/40 py-1 px-3 rounded-full">
+              {lightbox.album} · {lightbox.index + 1} / {lightbox.album === "western" ? WESTERN_IMAGES.length : TRADITIONAL_IMAGES.length}
+            </div>
           </div>
         </div>
       )}
