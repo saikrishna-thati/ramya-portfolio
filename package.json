@@ -5,13 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build",
+    "build": "vite build && node -e \"const fs=require('fs'); if(fs.existsSync('dist')){ if(fs.existsSync('output')) fs.rmSync('output', {recursive:true, force:true}); fs.renameSync('dist', 'output'); }\"",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@esbuild/win32-x64": "^0.28.2",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-alert-dialog": "^1.1.15",
