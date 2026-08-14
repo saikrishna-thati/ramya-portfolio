@@ -24,11 +24,16 @@ const WESTERN_IMAGES = [
 const TRADITIONAL_IMAGES = [
   "/traditional/6d6ba1ca-8322-4c7c-864a-ceeb08daf6e4.JPG",
   "/traditional/8855BBFF-7330-4193-9FE7-BBB2A15C5ACC.JPG",
+  "/traditional/IMG_0311.jpg",
   "/traditional/IMG_1542.JPG",
   "/traditional/IMG_1732.JPG",
+  "/traditional/IMG_2053.jpg",
   "/traditional/IMG_2953.JPG",
   "/traditional/IMG_2980.JPG",
   "/traditional/IMG_3258.JPG",
+  "/traditional/IMG_4132.jpg",
+  "/traditional/IMG_4396.jpg",
+  "/traditional/IMG_4465.jpg",
   "/traditional/IMG_7410.JPG",
   "/traditional/IMG_7414.JPG",
 ];
